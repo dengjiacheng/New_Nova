@@ -1,0 +1,14 @@
+{
+  "name": "codex-zerocommand-autopilot",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "codex:watch": "node autopilot-local/watch_auto.js",
+    "codex:map": "python3 scripts/code_map.py || python scripts/code_map.py"
+  },
+  "devDependencies": {
+    "chokidar": "^3.5.3",
+    "js-yaml": "^4.1.0"
+  }
+}

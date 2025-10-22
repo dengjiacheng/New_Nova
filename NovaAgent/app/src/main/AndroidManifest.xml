@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:name="com.nova.agent.AgentApplication"
+        android:allowBackup="false"
+        android:label="NovaAgent"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.NovaAgent">
+
+        <activity
+            android:name="com.nova.agent.AgentHostActivity"
+            android:exported="false"
+            android:launchMode="singleTask" />
+
+    </application>
+
+    <instrumentation
+        android:name="com.nova.agent.instrumentation.NovaInstrumentation"
+        android:targetPackage="com.nova.agent"
+        android:label="NovaAgent Instrumentation" />
+
+</manifest>

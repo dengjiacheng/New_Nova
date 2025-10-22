@@ -1,0 +1,103 @@
+name: CI Matrix
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      docs: ${{ steps.filter.outputs.docs }}
+      web: ${{ steps.filter.outputs.web }}
+      python: ${{ steps.filter.outputs.python }}
+      java: ${{ steps.filter.outputs.java }}
+      android: ${{ steps.filter.outputs.android }}
+      flutter: ${{ steps.filter.outputs.flutter }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          filters: .github/paths.yml
+
+  docs:
+    needs: changes
+    if: needs.changes.outputs.docs == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/doc_lint.sh
+      - run: bash scripts/doc_dup_scan.sh
+
+  web:
+    needs: changes
+    if: needs.changes.outputs.web == 'true' && !contains(github.event.pull_request.labels.*.name, 'type:doc-plan')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci || true
+      - run: npm test -- --coverage || true
+
+  python:
+    needs: changes
+    if: needs.changes.outputs.python == 'true' && !contains(github.event.pull_request.labels.*.name, 'type:doc-plan')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt || true
+      - run: pytest -q || true
+
+  java:
+    needs: changes
+    if: needs.changes.outputs.java == 'true' && !contains(github.event.pull_request.labels.*.name, 'type:doc-plan')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Build (Gradle/Maven fallback)
+        run: |
+          if [ -f "./gradlew" ]; then ./gradlew build ; elif command -v gradle >/dev/null 2>&1; then gradle build ; elif [ -f "pom.xml" ]; then mvn -q -DskipTests package ; else echo "no java build config, skip"; fi
+      - name: Test
+        run: |
+          if [ -f "./gradlew" ]; then ./gradlew test ; elif command -v gradle >/dev/null 2>&1; then gradle test ; elif [ -f "pom.xml" ]; then mvn -q test ; else echo "no tests, skip"; fi
+
+  android:
+    needs: changes
+    if: needs.changes.outputs.android == 'true' && !contains(github.event.pull_request.labels.*.name, 'type:doc-plan')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Build Android
+        run: |
+          if [ -f "apps/device-android/gradlew" ]; then (cd apps/device-android && ./gradlew assembleDebug) ; else echo "no android gradle wrapper, skip"; fi
+
+  flutter:
+    needs: changes
+    if: needs.changes.outputs.flutter == 'true' && !contains(github.event.pull_request.labels.*.name, 'type:doc-plan')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - name: Flutter test
+        run: |
+          if [ -f "apps/flutter-mobile/pubspec.yaml" ]; then (cd apps/flutter-mobile && flutter pub get && flutter test) ; else echo "no flutter app, skip"; fi

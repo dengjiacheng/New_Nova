@@ -1,1 +1,41 @@
+# OS / IDE
 .DS_Store
+.idea/
+.vscode/
+*.log
+
+# Autopilot
+.codex/locks/
+.codex/ops/ack/
+
+# Node / JS
+node_modules/
+dist/
+build/
+coverage.xml
+.coverage
+package-lock.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+# Java / Android
+**/.gradle/
+**/build/
+
+# Flutter
+**/.dart_tool/
+**/.packages
+**/pubspec.lock
+tools/flutter/              # Flutter SDK 自带 .git，别入库
+tools/flutter_*             # 防止再次出现 partial 目录
+NovaDesk/build/
+
+# Misc
+NovaDesk/.metadata

@@ -1,0 +1,28 @@
+name: nova_desk
+description: NovaDesk 桌面端客户端
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  path: ^1.9.0
+  uuid: ^4.4.0
+  flutter_riverpod: ^2.4.10
+  web_socket_channel: ^2.4.0
+  meta: ^1.12.0
+  collection: ^1.18.0
+  dio: ^5.4.3
+  file_picker: ^8.0.3
+  crypto: ^3.0.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true

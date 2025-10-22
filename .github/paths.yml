@@ -1,0 +1,14 @@
+docs:
+  - 'docs/**'
+web:
+  - 'apps/web-**/**'
+  - 'packages/web-**/**'
+python:
+  - 'services/python-**/**'
+java:
+  - 'services/java-**/**'
+android:
+  - 'apps/**/android/**'
+  - 'apps/device-android/**'
+flutter:
+  - 'apps/flutter-**/**'

@@ -1,0 +1,38 @@
+[project]
+name = "novaserver"
+version = "0.1.0"
+description = "NovaServer FastAPI 应用骨架"
+readme = "NovaServer/README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.111.0",
+    "uvicorn[standard]>=0.30.0",
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.2.1",
+    "loguru>=0.7.2",
+    "pyjwt>=2.8.0",
+    "passlib[bcrypt]>=1.7.4",
+    "sqlalchemy[asyncio]>=2.0.30",
+    "asyncpg>=0.29.0",
+    "alembic>=1.13.2",
+    "python-multipart>=0.0.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "httpx>=0.27.0",
+    "pytest>=8.2.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "NovaServer"}
+
+[tool.setuptools.packages.find]
+where = ["NovaServer"]
+include = ["app*"]

@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: novaserver
+Version: 0.1.0
+Summary: NovaServer FastAPI 应用骨架
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.111.0
+Requires-Dist: uvicorn[standard]>=0.30.0
+Requires-Dist: pydantic>=2.7.0
+Requires-Dist: pydantic-settings>=2.2.1
+Requires-Dist: pyjwt>=2.8.0
+Requires-Dist: passlib[bcrypt]>=1.7.4
+Requires-Dist: sqlalchemy[asyncio]>=2.0.30
+Requires-Dist: asyncpg>=0.29.0
+Requires-Dist: alembic>=1.13.2
+Provides-Extra: dev
+Requires-Dist: httpx>=0.27.0; extra == "dev"
+Requires-Dist: pytest>=8.2.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.23.0; extra == "dev"
+
+## NovaServer
+
+NovaServer 负责 Nova 平台云端能力，本目录现包含 FastAPI 应用骨架。详细规范参见 `docs/server/` 与 `docs/operations/coding_guidelines.md`，后续功能请在实现前同步文档并更新 `docs/server/iteration_todo.md`。
